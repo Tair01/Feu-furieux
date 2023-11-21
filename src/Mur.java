@@ -1,4 +1,4 @@
-public class Mur extends Case{
+public class Mur extends CaseTraversable{
     public Mur(int l, int c){
         super(l,c);
     }

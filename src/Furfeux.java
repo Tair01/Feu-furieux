@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import javax.swing.Timer;
 
 public class Furfeux {
@@ -13,16 +14,29 @@ public class Furfeux {
     }
 
     public void tour() {
-        /* Ã€ complÃ©ter */
+        CaseTraversable caseCourante = (CaseTraversable) joueur.getC();
+        int chaleur = 0;
+        if(caseCourante instanceof Hall){
+            chaleur = ((Hall)caseCourante).getChaleur();
+        }else if(caseCourante instanceof Sortie){
+            chaleur = ((Sortie)caseCourante).getChaleur();
+        }else if(caseCourante instanceof Porte && ((Porte) caseCourante).isOuverte()){
+            chaleur = 0;
+        }
+
+        joueur.ajouterResistance(chaleur);
     }
 
     public boolean partieFinie() {
-        return false;           // Pour le début n'importe quelle valeur pour deposer dans le git
+        if(terrain.getCarte()[joueur.getC().lig][joueur.getC().col] instanceof Sortie){
+            return true;
+        }
+        return joueur.getResistance() <= 0;
     }
 
     public static void main(String[] args) {
         int tempo = 100;
-        Furfeux jeu = new Furfeux("manoir.txt");
+        Furfeux jeu = new Furfeux("C:\\Users\\Admin\\IdeaProjects\\feu-furieux\\src\\manoir.txt");
         FenetreJeu graphic = new FenetreJeu(jeu.terrain);
         Timer timer = new Timer(tempo, e -> {
             jeu.tour();

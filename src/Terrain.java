@@ -16,6 +16,10 @@ public class Terrain {
         return largeur;
     }
 
+    public Case[][] getCarte() {
+        return carte;
+    }
+
     public Terrain(String file) {
         try {
             Scanner sc = new Scanner(new FileInputStream(file));
@@ -58,7 +62,24 @@ public class Terrain {
 
     public Joueur getJoueur() { return this.joueur; }
 
-    /*public ArrayList<CaseTraversable> getVoisinesTraversables(int lig, int col) {
-        *//* Ã€ complÃ©ter *//*
-    }*/                             //Pour le début je le mis en commentaire pour qu'on puisse le deposer
+    public ArrayList<CaseTraversable> getVoisinesTraversables(int lig, int col) {
+         ArrayList<CaseTraversable> voisines = new ArrayList<>();
+
+         if(lig > 0 && carte[lig -1][col].estTraversable()){
+             voisines.add((CaseTraversable) carte[lig - 1][col]);
+         }
+         if(lig < hauteur - 1 && carte[lig + 1][col].estTraversable()){
+             voisines.add((CaseTraversable) carte[lig + 1][col]);
+         }
+
+         if(col > 0 && carte[lig][col -1].estTraversable()){
+             voisines.add((CaseTraversable) carte[lig][col - 1]);
+         }
+
+        if(col < largeur - 1 && carte[lig][col -1].estTraversable()){
+            voisines.add((CaseTraversable) carte[lig][col + 1]);
+        }
+
+        return voisines;
+    }
 }
