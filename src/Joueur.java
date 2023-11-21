@@ -9,10 +9,11 @@ public class Joueur {
     }
 
     public void bouge(Case cible) {
-        /* Ã€ complÃ©ter */
+
     }
 
     public int getResistance() {
         return resistance;
     }
+
 }

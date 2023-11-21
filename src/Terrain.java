@@ -16,6 +16,10 @@ public class Terrain {
         return largeur;
     }
 
+    public Case[][] getCarte() {
+        return carte;
+    }
+
     public Terrain(String file) {
         try {
             Scanner sc = new Scanner(new FileInputStream(file));

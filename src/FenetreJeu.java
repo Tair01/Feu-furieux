@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class FenetreJeu extends JPanel {
+public class FenetreJeu extends JPanel  {
     private Terrain terrain;
     private int tailleCase = 36;
     private int hauteur, largeur;
@@ -23,11 +23,13 @@ public class FenetreJeu extends JPanel {
         frame.getContentPane().add(this);
         frame.pack();
         frame.setVisible(true);
+
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        /* Ã€ complÃ©ter */    }
+        /* Ã€ complÃ©ter */
+    }
 
 
     public void ecranFinal(int n) {
