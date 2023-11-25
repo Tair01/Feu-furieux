@@ -7,9 +7,11 @@ public class CaseTraversable extends Case{
 
     @Override
     public boolean estTraversable() {
-        return false;
+        return true;      //Comme c'est une case  traversable c'est toujours true
     }
-
+    public boolean haveJ(){
+        return j!= null;   //Est-ce qu'il y a un joueur dans la case ou pas
+    }
     @Override
     public void vide() {
         j = null;
@@ -18,13 +20,16 @@ public class CaseTraversable extends Case{
     @Override
     public void entre(Joueur j) {
         this.j = j;
+        j.setCase(this);
     }
 
     @Override
     public Joueur getJ() {
         return j;
     }
-    public int getChaleur(){
-        return getChaleur();
+
+    @Override
+    public int getChaleur() {
+        return j.getChaleur();
     }
 }

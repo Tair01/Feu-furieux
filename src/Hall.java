@@ -21,20 +21,15 @@ public class Hall extends CaseTraversable{
 
     @Override
     public boolean estTraversable() {
-        return ouverte;
+        return true;
     }
 
     public int getChaleur() {
         return chaleur;
     }
     public void entre(Joueur j) {
-        joueur = j;             // On peut rajouter des joueurs en utilisant cette méthode
+        this.joueur = j;             // On peut rajouter des joueurs en utilisant cette méthode
     }
-
-    public void vide(){
-        joueur = null;            // On peut vider la case en utilisant cette méthode
-    }
-
     @Override
     public Joueur getJ() {        //Recuperer le joueur
         return joueur;

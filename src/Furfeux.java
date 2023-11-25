@@ -24,7 +24,7 @@ public class Furfeux {
             chaleur = 0;
         }
 
-        joueur.ajouterResistance(chaleur);
+        joueur.ajouterRes(chaleur);
     }
 
     public boolean partieFinie() {
@@ -38,6 +38,8 @@ public class Furfeux {
         int tempo = 100;
         Furfeux jeu = new Furfeux("C:\\Users\\Admin\\IdeaProjects\\feu-furieux\\src\\manoir.txt");
         FenetreJeu graphic = new FenetreJeu(jeu.terrain);
+        jeu.terrain.setDirectionJoueur(Direction.random());
+
         Timer timer = new Timer(tempo, e -> {
             jeu.tour();
             graphic.repaint();

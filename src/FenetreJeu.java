@@ -45,6 +45,10 @@ public class FenetreJeu extends JPanel implements KeyListener {
                 if (caseCourant instanceof Hall) {
                     g.setColor(Color.WHITE);
                     g.fillRect(x, y, tailleCase, tailleCase);
+                    if(caseCourant.getJ()!=null){
+                        g.setColor(Color.GRAY);
+                        g.fillOval(x,y,tailleCase,tailleCase);
+                    }
                 } else if (caseCourant instanceof Mur) {
                     g.setColor(Color.BLACK);
                     g.fillRect(x, y, tailleCase, tailleCase);
@@ -63,8 +67,6 @@ public class FenetreJeu extends JPanel implements KeyListener {
             }
         }
     }
-
-
     public void ecranFinal(int n) {
         frame.remove(this);
         JLabel label = new JLabel("Score " + n);

@@ -15,17 +15,6 @@ public class Porte extends CaseTraversable{
         return false;
     }
 
-    @Override
-    public void vide() {}
-
-    @Override
-    public void entre(Joueur j) {}
-
-    @Override
-    public Joueur getJ() {
-        return null;
-    }
-
     public void ouvrirPorte(){ouverte = true;}
     public void fermetPorte(){ouverte = false;}
 }

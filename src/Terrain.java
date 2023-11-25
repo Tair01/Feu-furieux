@@ -20,6 +20,9 @@ public class Terrain {
         return carte;
     }
 
+    public void setDirectionJoueur(Direction direction) {
+        joueur.setDirection(direction);
+    }
     public Terrain(String file) {
         try {
             Scanner sc = new Scanner(new FileInputStream(file));
@@ -76,7 +79,7 @@ public class Terrain {
              voisines.add((CaseTraversable) carte[lig][col - 1]);
          }
 
-        if(col < largeur - 1 && carte[lig][col -1].estTraversable()){
+        if(col < largeur - 1 && carte[lig][col +1].estTraversable()){
             voisines.add((CaseTraversable) carte[lig][col + 1]);
         }
 
