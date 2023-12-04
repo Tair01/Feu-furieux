@@ -3,6 +3,7 @@ public class Joueur {
     private int resistance;
     private int cles;
     private Direction direction;
+    private boolean gagner;
     public Joueur(CaseTraversable c, int r, int k) {
         this.c = c;
         this.resistance = r;
@@ -10,61 +11,38 @@ public class Joueur {
     }
 
     public int getChaleur(){
-        return c.getChaleur();
+        return this.c.getChaleur();
     }
-
+    public int getCles(){
+        return this.cles;
+    }
+    public CaseTraversable getC(){
+        return this.c;
+    }
     public Direction getDirection(){
-        return direction;
+        return this.direction;
     }
-    public void setDirection(Direction d){direction = d;}
+    public int getResistance() {
+        return this.resistance;
+    }
+    public void setDirection(Direction d){this.direction = d;}
     public void ajouterRes(int chaleur){
         resistance = resistance - chaleur;
         if(resistance < 0){resistance = 0;}
     }
-
-    public void ajouterCles(int nbCles){
-        cles += nbCles;
-    }
-
-    public int getCles(){
-        return cles;
-    }
-
-    public Case getC(){
-        return c;
-    }
+    public void prendCles(){this.cles++;}
+    public boolean isGagner(){return this.gagner;} // est-ce que le joueur a gagner?
+    public  void gagner(){this.gagner = true;} // joueur a gagner
 
     public void bouge(Case cible) {
         if (cible.estTraversable()) {
-            int chaleurCase = cible.getChaleur();
-
-            if (cible instanceof Hall) {
-                chaleurCase = ((Hall) cible).getChaleur();
-            } else if (cible instanceof Sortie) {
-                chaleurCase = ((Sortie) cible).getChaleur();
-            } else if (cible instanceof Porte && ((Porte) cible).isOuverte()) {
-                chaleurCase = 0;
-            }
-            ajouterRes(chaleurCase);
-
-            if (cible instanceof Porte && !((Porte) cible).isOuverte()) {
-                if (cles > 0) {
-                    ((Porte) cible).ouvrirPorte();
-                    cles--;
-                }
-            }
             c.vide();
             cible.entre(c.getJ());
             c = (CaseTraversable) cible;
-
         }
     }
     public void setCase(CaseTraversable nouvelleCase) {
         this.c = nouvelleCase;
-    }
-
-    public int getResistance() {
-        return resistance;
     }
 
 }

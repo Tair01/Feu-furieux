@@ -9,9 +9,7 @@ public class CaseTraversable extends Case{
     public boolean estTraversable() {
         return true;      //Comme c'est une case  traversable c'est toujours true
     }
-    public boolean haveJ(){
-        return j!= null;   //Est-ce qu'il y a un joueur dans la case ou pas
-    }
+    public boolean haveJ(){return j!= null;} //Est-ce qu'il y a un joueur dans la case ou pas
     @Override
     public void vide() {
         j = null;
@@ -32,4 +30,7 @@ public class CaseTraversable extends Case{
     public int getChaleur() {
         return j.getChaleur();
     }
+
+    public boolean haveCles(){return false;} //Est-ce qu'il y a un cles dans la case: non
+
 }

@@ -14,4 +14,6 @@ public class Sortie  extends CaseTraversable{
         return true;
     }
 
+    @Override
+    public void entre(Joueur j) {super.entre(j);}
 }

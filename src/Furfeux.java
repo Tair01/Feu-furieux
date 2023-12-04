@@ -28,17 +28,14 @@ public class Furfeux {
     }
 
     public boolean partieFinie() {
-        if(terrain.getCarte()[joueur.getC().lig][joueur.getC().col] instanceof Sortie){
-            return true;
-        }
-        return joueur.getResistance() <= 0;
+        return joueur.getResistance() <= 0 || this.joueur.isGagner();
     }
 
     public static void main(String[] args) {
         int tempo = 100;
         Furfeux jeu = new Furfeux("C:\\Users\\Admin\\IdeaProjects\\feu-furieux\\src\\manoir.txt");
         FenetreJeu graphic = new FenetreJeu(jeu.terrain);
-        jeu.terrain.setDirectionJoueur(Direction.random());
+        //jeu.terrain.setDirectionJoueur(Direction.random());
 
         Timer timer = new Timer(tempo, e -> {
             jeu.tour();
