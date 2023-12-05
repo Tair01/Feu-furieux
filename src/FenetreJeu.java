@@ -11,6 +11,7 @@ public class FenetreJeu extends JPanel implements KeyListener {
 
     private Joueur joueur;
     private int debutX, debutY, finY, finX;
+    private int centreX, centreY;
 
     public FenetreJeu(Terrain t) {
         this.hauteur = t.getHauteur();
@@ -30,68 +31,63 @@ public class FenetreJeu extends JPanel implements KeyListener {
         debutX = this.joueur.getC().lig;
         debutY = this.joueur.getC().col;
 
+        centreX = Math.max(0, joueur.getC().col - 4);
+        centreY = Math.max(0, joueur.getC().lig - 4);
+
         frame.addKeyListener(this);
         frame.setFocusable(true);
         frame.requestFocusInWindow();
     }
-
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for(int i = 0; i < hauteur; i++){
-            for(int j = 0; j < largeur; j++){
-                dessinerCase(g,i,j);
+        int visibleH = Math.min(hauteur, 9);
+        int visibleW = Math.min(largeur, 9);
+        int debutX = Math.max(0, joueur.getC().col - 4);
+        int debutY = Math.max(0, joueur.getC().lig - 4);
+        int finX = Math.min(largeur, centreX + visibleW);
+        int finY = Math.min(hauteur, centreY + visibleH);
+
+        for (int i = debutY; i < finY; i++) {
+            for (int j = debutX; j < finX; j++) {
+                int x = (j - debutX) * tailleCase;
+                int y = (i - debutY) * tailleCase;
+                int a = (int) Math.pow(joueur.getC().lig - i, 2);
+                int b = (int) Math.pow(joueur.getC().col - j, 2);
+                Case caseCourant = terrain.getCarte()[i][j];
+                int distance = a * b;
+                if (distance <= 10) {
+                    if (caseCourant instanceof Hall) {
+                        g.setColor(Color.WHITE);
+                        if (((Hall) caseCourant).hCles() || ((Hall) caseCourant).haveJ() || ((Hall) caseCourant).haveCles()) {
+                            g.setColor(Color.GRAY);
+                        }
+                    } else if (caseCourant instanceof Mur) {
+                        g.setColor(Color.BLACK);
+                    } else if (caseCourant instanceof Sortie) {
+                        g.setColor(Color.BLUE);
+                    } else if (caseCourant instanceof Porte porteCourante) {
+                        g.setColor(porteCourante.isOuverte() ? Color.WHITE : Color.GREEN);
+                    }
+                    g.fillRect(x, y, tailleCase, tailleCase);
+                    if (caseCourant instanceof CaseTraversable) {
+                        this.dessinerElements(g, y + (tailleCase / 4), x + (tailleCase / 4), (CaseTraversable) caseCourant);
+                    }
+                }
             }
         }
-    }
-    private void dessinerCase(Graphics g, int i, int j) {
-        Case caseCourant = terrain.getCase(i,j); // Case courante
-        int x = i - debutX;
-        int y = j - debutY;
-        int x1 = (int) Math.pow(x,2);
-        int y1 = (int) Math.pow(y,2);
-        int d = x1 * y1; //La distance
-        if (d <= 10) {
-            int a = 4 + y; // La visibilite 4 case
-            int b = 4 + x;
-            g.setColor(Color.WHITE);
-            g.fillRect(a * tailleCase, b * tailleCase, tailleCase, tailleCase);
-            g.setColor(getCouleurCase(caseCourant));
-            g.fillRect(a*tailleCase, b * tailleCase, tailleCase, tailleCase);
-            dessinerElementsSupplementaires(g, x, y, caseCourant);
-        }
+        repaint();
     }
 
-    private void dessinerElementsSupplementaires(Graphics g, int x, int y, Case caseCourant) {
-        CaseTraversable c = (CaseTraversable) caseCourant;
-        if (c.haveJ()) {
+    private void dessinerElements(Graphics g, int x, int y, CaseTraversable caseCourant) {
+        if (caseCourant.haveJ()) {
             g.setColor(Color.GRAY);
-            g.fillOval(x * tailleCase, y * tailleCase, tailleCase, tailleCase);
+            g.fillOval(y * tailleCase, x * tailleCase, tailleCase / 2, tailleCase / 2);
         }
-        if (c.haveCles())  {
+        if (caseCourant.haveCles()) {
             g.setColor(Color.GRAY);
-            g.fillRect(x, y, tailleCase, tailleCase);
+            g.fillRect(y, x, tailleCase / 2, tailleCase / 2);
         }
     }
-
-
-    private Color getCouleurCase(Case caseCourant) {
-        Color c = Color.WHITE;
-        if (caseCourant instanceof Hall) {
-            c = Color.WHITE;
-            if (((Hall) caseCourant).hCles() || ((Hall) caseCourant).haveJ() || ((Hall) caseCourant).haveCles()) {
-                c = Color.GRAY;
-            }
-        } else if (caseCourant instanceof Mur) {
-            c = Color.BLACK;
-        } else if (caseCourant instanceof Sortie) {
-            c = Color.BLUE;
-        } else if (caseCourant instanceof Porte) {
-            Porte porteCourante = (Porte) caseCourant;
-            c = porteCourante.isOuverte() ? Color.WHITE : Color.GREEN;
-        }
-        return c;
-    }
-
     public void ecranFinal(int n) {
         frame.remove(this);
         JLabel label = new JLabel("Score " + n);
