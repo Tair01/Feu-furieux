@@ -1,7 +1,6 @@
 public class Hall extends CaseTraversable{
     private boolean cle;
     private int chaleur;
-    private Joueur joueur;
     public Hall(int l, int c){
         super(l,c);
     }
@@ -18,7 +17,6 @@ public class Hall extends CaseTraversable{
     public boolean hCles(){
         return this.cle;
     }
-
     @Override
     public boolean estTraversable() {
         return true;
@@ -27,9 +25,7 @@ public class Hall extends CaseTraversable{
     public int getChaleur() {
         return chaleur;
     }
-    public void entre(Joueur j) {this.joueur = j;} // On peut rajouter des joueurs en utilisant cette méthode
-    @Override
-    public Joueur getJ() {        //Recuperer le joueur
-        return joueur;
-    }
+    public void entre(Joueur j) {
+        super.entre(j);
+    } // On peut rajouter des joueurs en utilisant cette méthode
 }

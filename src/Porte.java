@@ -7,14 +7,10 @@ public class Porte extends CaseTraversable{
     public boolean isOuverte() {
         return ouverte;
     }
-    public void setOuverte(boolean ouverte) {
-        this.ouverte = ouverte;
-    }
     @Override
     public boolean estTraversable() {
-        return false;
+        return ouverte;
     }
-
     public void ouvrirPorte(){ouverte = true;}
     public void fermetPorte(){ouverte = false;}
 }

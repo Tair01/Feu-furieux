@@ -10,14 +10,13 @@ public class FenetreJeu extends JPanel implements KeyListener {
     private JFrame frame;
 
     private Joueur joueur;
-    private int debutX, debutY, finY, finX;
-    private int centreX, centreY;
 
     public FenetreJeu(Terrain t) {
         this.hauteur = t.getHauteur();
         this.largeur = t.getLargeur();
         this.terrain = t;
         this.joueur = t.getJoueur();
+
         setBackground(Color.LIGHT_GRAY);
         setPreferredSize(new Dimension(9 * tailleCase, 9 * tailleCase));
 
@@ -28,49 +27,40 @@ public class FenetreJeu extends JPanel implements KeyListener {
         frame.pack();
         frame.setVisible(true);
 
-        debutX = this.joueur.getC().lig;
-        debutY = this.joueur.getC().col;
-
-        centreX = Math.max(0, joueur.getC().col - 4);
-        centreY = Math.max(0, joueur.getC().lig - 4);
-
         frame.addKeyListener(this);
         frame.setFocusable(true);
         frame.requestFocusInWindow();
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int visibleH = Math.min(hauteur, 9);
-        int visibleW = Math.min(largeur, 9);
-        int debutX = Math.max(0, joueur.getC().col - 4);
-        int debutY = Math.max(0, joueur.getC().lig - 4);
-        int finX = Math.min(largeur, centreX + visibleW);
-        int finY = Math.min(hauteur, centreY + visibleH);
+        int debutX = joueur.getC().col - 4;
+        int debutY = joueur.getC().lig - 4;
 
-        for (int i = debutY; i < finY; i++) {
-            for (int j = debutX; j < finX; j++) {
+        for (int i = 0; i< hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
                 int x = (j - debutX) * tailleCase;
                 int y = (i - debutY) * tailleCase;
-                int a = (int) Math.pow(joueur.getC().lig - i, 2);
-                int b = (int) Math.pow(joueur.getC().col - j, 2);
+
+                int x1 = i - joueur.getC().lig;
+                int y1 = j - joueur.getC().col;
+                int distance = x1 * x1 + y1 * y1;
+
                 Case caseCourant = terrain.getCarte()[i][j];
-                int distance = a * b;
                 if (distance <= 10) {
                     if (caseCourant instanceof Hall) {
                         g.setColor(Color.WHITE);
-                        if (((Hall) caseCourant).hCles() || ((Hall) caseCourant).haveJ() || ((Hall) caseCourant).haveCles()) {
-                            g.setColor(Color.GRAY);
-                        }
-                    } else if (caseCourant instanceof Mur) {
+                        g.fillRect(x, y, tailleCase, tailleCase);
+                    }if(caseCourant instanceof CaseTraversable c){
+                        this.dessinerElem(g,x1 + 4 ,y1 + 4 , (CaseTraversable) caseCourant);
+                    }if (caseCourant instanceof Mur) {
                         g.setColor(Color.BLACK);
-                    } else if (caseCourant instanceof Sortie) {
+                        g.fillRect(x, y, tailleCase, tailleCase);
+                    }if (caseCourant instanceof Sortie) {
                         g.setColor(Color.BLUE);
-                    } else if (caseCourant instanceof Porte porteCourante) {
-                        g.setColor(porteCourante.isOuverte() ? Color.WHITE : Color.GREEN);
-                    }
-                    g.fillRect(x, y, tailleCase, tailleCase);
-                    if (caseCourant instanceof CaseTraversable) {
-                        this.dessinerElements(g, y + (tailleCase / 4), x + (tailleCase / 4), (CaseTraversable) caseCourant);
+                        g.fillRect(x, y, tailleCase, tailleCase);
+                    }if (caseCourant instanceof Porte) {
+                        g.setColor(((Porte) caseCourant).isOuverte() ?  Color.WHITE : Color.GREEN);
+                        g.fillRect(x, y, tailleCase, tailleCase);
                     }
                 }
             }
@@ -78,14 +68,14 @@ public class FenetreJeu extends JPanel implements KeyListener {
         repaint();
     }
 
-    private void dessinerElements(Graphics g, int x, int y, CaseTraversable caseCourant) {
+    private void dessinerElem(Graphics g, int x, int y, CaseTraversable caseCourant) {
+        if (caseCourant.haveCles()) {
+            g.setColor(Color.RED);
+            g.fillRect(y * tailleCase, x * tailleCase, tailleCase , tailleCase );
+        }
         if (caseCourant.haveJ()) {
             g.setColor(Color.GRAY);
-            g.fillOval(y * tailleCase, x * tailleCase, tailleCase / 2, tailleCase / 2);
-        }
-        if (caseCourant.haveCles()) {
-            g.setColor(Color.GRAY);
-            g.fillRect(y, x, tailleCase / 2, tailleCase / 2);
+            g.fillOval(x * tailleCase, y * tailleCase , tailleCase , tailleCase );
         }
     }
     public void ecranFinal(int n) {

@@ -10,6 +10,5 @@ public abstract class Case  {
     public abstract boolean estTraversable();
     public abstract void vide();
     public abstract void entre(Joueur j);
-    public  abstract Joueur getJ();
     public abstract int getChaleur();
 }

@@ -37,7 +37,7 @@ public class Joueur {
     public void bouge(Case cible) {
         if (cible.estTraversable()) {
             c.vide();
-            cible.entre(c.getJ());
+            cible.entre(this);
             c = (CaseTraversable) cible;
         }
     }
