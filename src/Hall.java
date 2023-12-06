@@ -13,19 +13,21 @@ public class Hall extends CaseTraversable{
         super(l,c);
         this.chaleur = ch;
     }
+    public void entre(Joueur j) {
+        super.entre(j);
+        if(haveCles()) {
+            j.prendCles();
+            this.cle = false;
+        }
+    } // On peut rajouter des joueurs en utilisant cette méthode
 
-    public boolean hCles(){
+    public boolean haveCles(){
         return this.cle;
     }
     @Override
-    public boolean estTraversable() {
-        return true;
-    }
+    public boolean estTraversable() {return true; }
 
     public int getChaleur() {
         return chaleur;
     }
-    public void entre(Joueur j) {
-        super.entre(j);
-    } // On peut rajouter des joueurs en utilisant cette méthode
 }

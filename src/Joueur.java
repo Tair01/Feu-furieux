@@ -1,7 +1,7 @@
 public class Joueur {
     private CaseTraversable c;
     private int resistance;
-    private int cles;
+    private int cles ;
     private Direction direction;
     private boolean gagner;
     public Joueur(CaseTraversable c, int r, int k) {
@@ -30,19 +30,27 @@ public class Joueur {
         resistance = resistance - chaleur;
         if(resistance < 0){resistance = 0;}
     }
-    public void prendCles(){this.cles++;}
+    public void prendCles(){
+        this.cles++;
+    }
+    public void useCles(){
+        cles--;
+    }
     public boolean isGagner(){return this.gagner;} // est-ce que le joueur a gagner?
     public  void gagner(){this.gagner = true;} // joueur a gagner
 
     public void bouge(Case cible) {
         if (cible.estTraversable()) {
+            System.out.println("Case traversable, mouvement en cours...");
             c.vide();
-            cible.entre(this);
             c = (CaseTraversable) cible;
+            c.entre(this);
+        }else{
+            if (cible instanceof Porte p && this.getCles() > 0) {
+                useCles();
+                p.ouvrirPorte();
+                System.out.println("La porte est ouverte");
+            }
         }
     }
-    public void setCase(CaseTraversable nouvelleCase) {
-        this.c = nouvelleCase;
-    }
-
 }

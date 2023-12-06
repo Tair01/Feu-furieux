@@ -7,4 +7,7 @@ public class Mur extends CaseTraversable{
     public boolean estTraversable() {
         return false;
     }
+
+    @Override
+    public boolean haveCles() {return false;} // Parce que c'est une mur
 }

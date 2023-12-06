@@ -1,4 +1,4 @@
-public abstract class CaseTraversable extends Case{
+public  abstract class CaseTraversable extends Case{
     private Joueur j;
     public CaseTraversable(int l, int c){
         super(l,c);
@@ -6,20 +6,16 @@ public abstract class CaseTraversable extends Case{
     }
 
     @Override
-    public boolean estTraversable() {
-        return true;      //Comme c'est une case  traversable c'est toujours true
-    }
+    public boolean estTraversable() {return true;} //Comme c'est une case  traversable c'est toujours true
     public boolean haveJ(){return j!= null;} //Est-ce qu'il y a un joueur dans la case ou pas
-    public boolean haveCles(){return false;} //Est-ce qu'il y a un cles dans la case: non
-    @Override
+    public abstract boolean haveCles(); //Est-ce qu'il y a un cles dans la case
+
     public void vide() {
         j = null;
     }
 
-    @Override
     public void entre(Joueur j) {
         this.j = j;
-        j.setCase(this);
     }
     @Override
     public int getChaleur() {

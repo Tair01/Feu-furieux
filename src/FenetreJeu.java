@@ -51,7 +51,7 @@ public class FenetreJeu extends JPanel implements KeyListener {
                         g.setColor(Color.WHITE);
                         g.fillRect(x, y, tailleCase, tailleCase);
                     }if(caseCourant instanceof CaseTraversable c){
-                        this.dessinerElem(g,x1 + 4 ,y1 + 4 , (CaseTraversable) caseCourant);
+                        this.dessinerElem(g,x1 + 4 ,y1 + 4, (CaseTraversable) caseCourant);
                     }if (caseCourant instanceof Mur) {
                         g.setColor(Color.BLACK);
                         g.fillRect(x, y, tailleCase, tailleCase);
@@ -69,12 +69,15 @@ public class FenetreJeu extends JPanel implements KeyListener {
     }
 
     private void dessinerElem(Graphics g, int x, int y, CaseTraversable caseCourant) {
+        int a = tailleCase / 3;
         if (caseCourant.haveCles()) {
             g.setColor(Color.RED);
-            g.fillRect(y * tailleCase, x * tailleCase, tailleCase , tailleCase );
+            //System.out.println("Marche pas");
+            g.fillRect(a + y * tailleCase  , a + x * tailleCase  , a  , a );
         }
         if (caseCourant.haveJ()) {
             g.setColor(Color.GRAY);
+            //System.out.println("Marche");
             g.fillOval(x * tailleCase, y * tailleCase , tailleCase , tailleCase );
         }
     }

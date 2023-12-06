@@ -6,9 +6,6 @@ public abstract class Case  {
         this.lig = l;
         this.col = c;
     }
-
     public abstract boolean estTraversable();
-    public abstract void vide();
-    public abstract void entre(Joueur j);
     public abstract int getChaleur();
 }
