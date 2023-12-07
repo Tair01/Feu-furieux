@@ -20,7 +20,6 @@ public class Hall extends CaseTraversable{
             this.cle = false;
         }
     } // On peut rajouter des joueurs en utilisant cette méthode
-
     public boolean haveCles(){
         return this.cle;
     }

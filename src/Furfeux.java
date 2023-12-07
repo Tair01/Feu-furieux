@@ -14,12 +14,15 @@ public class Furfeux {
     }
 
     public void tour() {
-        CaseTraversable caseCourante = (CaseTraversable) joueur.getC();
+        CaseTraversable caseCourante = joueur.getC();
         int chaleur = 0;
+        /*if(caseCourante != null){
+            terrain.propagerFeu();
+        }*/
         if(caseCourante instanceof Hall){
-            chaleur = ((Hall)caseCourante).getChaleur();
+            chaleur = caseCourante.getChaleur();
         }else if(caseCourante instanceof Sortie){
-            chaleur = ((Sortie)caseCourante).getChaleur();
+            chaleur = caseCourante.getChaleur();
         }else if(caseCourante instanceof Porte && ((Porte) caseCourante).isOuverte()){
             chaleur = 0;
         }
@@ -35,7 +38,6 @@ public class Furfeux {
         int tempo = 100;
         Furfeux jeu = new Furfeux("C:\\Users\\Admin\\IdeaProjects\\feu-furieux\\src\\manoir.txt");
         FenetreJeu graphic = new FenetreJeu(jeu.terrain);
-        //jeu.terrain.setDirectionJoueur(Direction.random());
 
         Timer timer = new Timer(tempo, e -> {
             jeu.tour();
@@ -45,7 +47,6 @@ public class Furfeux {
                 ((Timer)e.getSource()).stop();
             }
         });
-        timer = new Timer(tempo, e -> {});
         timer.start();
     }
 }

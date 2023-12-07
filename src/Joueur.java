@@ -9,34 +9,31 @@ public class Joueur {
         this.resistance = r;
         this.cles = k;
     }
-
-    public int getChaleur(){
-        return this.c.getChaleur();
-    }
     public int getCles(){
-        return this.cles;
+        return cles;
     }
     public CaseTraversable getC(){
-        return this.c;
+        return c;
     }
     public Direction getDirection(){
-        return this.direction;
+        return direction;
     }
     public int getResistance() {
-        return this.resistance;
+        return resistance;
     }
-    public void setDirection(Direction d){this.direction = d;}
+    public void setResistance(int a){resistance = a;}
+    public void setDirection(Direction d){direction = d;}
     public void ajouterRes(int chaleur){
         resistance = resistance - chaleur;
         if(resistance < 0){resistance = 0;}
     }
     public void prendCles(){
-        this.cles++;
+        cles++;
     }
     public void useCles(){
         cles--;
     }
-    public boolean isGagner(){return this.gagner;} // est-ce que le joueur a gagner?
+    public boolean isGagner(){return gagner;} // est-ce que le joueur a gagner?
     public  void gagner(){this.gagner = true;} // joueur a gagner
 
     public void bouge(Case cible) {
@@ -51,6 +48,9 @@ public class Joueur {
                 p.ouvrirPorte();
                 System.out.println("La porte est ouverte");
             }
+        }
+        if(cible instanceof Sortie){
+            this.gagner();
         }
     }
 }

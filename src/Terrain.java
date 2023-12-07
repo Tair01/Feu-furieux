@@ -1,6 +1,7 @@
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Terrain {
@@ -89,5 +90,48 @@ public class Terrain {
             v.add((CaseTraversable) carte[lig][col + 1]);
         }
         return v;
+    }
+
+    public void propagerFeu() {
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
+                Case caseCourante = carte[i][j];
+                if (caseCourante instanceof CaseTraversable) {
+                    CaseTraversable caseTraversable = (CaseTraversable) caseCourante;
+                    if (caseTraversable.isEnFeu()) {
+                        propagerFeuAutour(i, j);
+                    }
+                }
+            }
+        }
+    }
+
+    private void propagerFeuAutour(int lig, int col) {
+        int chTotale = calculerChaleurTotale(lig, col);
+        Random random = new Random();
+        int r = random.nextInt(200); // Nombre aléatoire entre 0 et 199
+        if (r < chTotale) {
+            int incr = random.nextInt(10) + 1;
+            carte[lig][col].ajouterRes(Math.min(incr, 10));
+        } else if (r > 190) {
+            int dcr = random.nextInt(2);
+            carte[lig][col].ajouterChaleur(-dcr);
+        }
+    }
+    private boolean limite(int lig, int col) {
+        return lig >= 0 && lig < hauteur && col >= 0 && col < largeur;
+    }
+    private int calculerChaleurTotale(int lig, int col) {
+        int chTotale = 0;
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int vLig = lig + i;
+                int vCol = col + j;
+                if (limite(vLig, vCol)) {
+                    chTotale += carte[vLig][vCol].getChaleur();
+                }
+            }
+        }
+        return chTotale;
     }
 }
