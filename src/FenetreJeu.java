@@ -33,22 +33,25 @@ public class FenetreJeu extends JPanel implements KeyListener {
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int debutX = joueur.getC().col - 4;
-        int debutY = joueur.getC().lig - 4;
 
         for (int i = 0; i< hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
-                int x = (j - debutX) * tailleCase;
-                int y = (i - debutY) * tailleCase;
+                int x = (j - (joueur.getC().col - 4)) * tailleCase;
+                int y = (i - (joueur.getC().lig - 4)) * tailleCase;
 
                 int x1 = i - joueur.getC().lig;
                 int y1 = j - joueur.getC().col;
                 int distance = x1 * x1 + y1 * y1;
 
                 Case caseCourant = terrain.getCarte()[i][j];
+                //g.setColor(Color.WHITE);
+                //int chaleur = caseCourant.getEnFeu();    // Mal fait, marche pas
+                //int r = Math.min(255, 24 * chaleur);
+
                 if (distance <= 10) {
                     if (caseCourant instanceof Hall) {
                         g.setColor(Color.WHITE);
+                        //g.setColor(new Color(r,0,0));  // Mal fait, marche pas
                         g.fillRect(x, y, tailleCase, tailleCase);
                     }if(caseCourant instanceof CaseTraversable c){
                         this.dessinerElem(g,x1 + 4 ,y1 + 4, (CaseTraversable) caseCourant);
@@ -70,8 +73,11 @@ public class FenetreJeu extends JPanel implements KeyListener {
 
     private void dessinerElem(Graphics g, int x, int y, CaseTraversable caseCourant) {
         int a = tailleCase / 3;
+       /* int chaleur = caseCourant.getEnFeu();
+        int r = Math.min(255,24 * chaleur);
+        g.setColor(new Color(r,0,0));*/
         if (caseCourant.haveCles()) {
-            g.setColor(Color.RED);
+            g.setColor(Color.GRAY);
             //System.out.println("Marche pas");
             g.fillRect(a + y * tailleCase  , a + x * tailleCase  , a  , a );
         }

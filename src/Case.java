@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public abstract class Case  {
     public final int lig, col;
     private int chaleur;
@@ -11,11 +9,13 @@ public abstract class Case  {
     public abstract boolean estTraversable();
 
     public abstract void ajouterRes(int min);
+    public abstract int getEnFeu();
+    public abstract void mettreEnFeu();
+    public abstract void eteindreEnFeu();
     public void ajouterChaleur(int ajustement) {
         chaleur += ajustement;
-
-        // Assurez-vous que la chaleur reste dans la plage [0, 10]
         chaleur = Math.max(0, Math.min(10, chaleur));
     }
     public int getChaleur(){return chaleur;}
+
 }

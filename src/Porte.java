@@ -1,7 +1,7 @@
 public class  Porte extends CaseTraversable{
     private boolean ouverte;
     public Porte(int l, int c, boolean ouv){
-        super(l,c);
+        super(l,c,0); // feu = 0 par defaut
         this.ouverte = ouv;
     }
     public boolean isOuverte() {

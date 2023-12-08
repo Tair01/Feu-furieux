@@ -1,8 +1,6 @@
 public class Sortie  extends CaseTraversable{
-    private int chaleur;
-    public Sortie(int l, int c, int ch){
-        super(l,c);
-        this.chaleur = ch;
+    public Sortie(int l, int c, int feu){
+        super(l,c,feu);
     }
     @Override
     public boolean estTraversable() {
@@ -12,9 +10,6 @@ public class Sortie  extends CaseTraversable{
     public void entre(Joueur j) {
         super.entre(j);
         j.gagner();
-    }
-    public int getChaleur(){
-        return chaleur;
     }
     @Override
     public boolean haveCles() {

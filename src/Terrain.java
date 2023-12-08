@@ -25,10 +25,6 @@ public class Terrain {
         return this.carte[l][c];
     }
 
-    public void setDirectionJoueur(Direction direction) {
-        joueur.setDirection(direction);
-    }
-
     public Case chemin(Case courante, Direction dir){
         switch (dir){
             case nord: return this.getCase(courante.lig - 1, courante.col);
@@ -96,9 +92,8 @@ public class Terrain {
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
                 Case caseCourante = carte[i][j];
-                if (caseCourante instanceof CaseTraversable) {
-                    CaseTraversable caseTraversable = (CaseTraversable) caseCourante;
-                    if (caseTraversable.isEnFeu()) {
+                if (caseCourante instanceof CaseTraversable caseTraversable) {
+                    if (caseTraversable.getEnFeu() > 0) {
                         propagerFeuAutour(i, j);
                     }
                 }
@@ -107,21 +102,37 @@ public class Terrain {
     }
 
     private void propagerFeuAutour(int lig, int col) {
-        int chTotale = calculerChaleurTotale(lig, col);
+        int chTotale = calculerChTotale(lig, col);
         Random random = new Random();
         int r = random.nextInt(200); // Nombre aléatoire entre 0 et 199
         if (r < chTotale) {
             int incr = random.nextInt(10) + 1;
             carte[lig][col].ajouterRes(Math.min(incr, 10));
+            //carte[lig][col].mettreEnFeu();
         } else if (r > 190) {
             int dcr = random.nextInt(2);
             carte[lig][col].ajouterChaleur(-dcr);
+            //carte[lig][col].eteindreEnFeu();
+        }
+        ArrayList<CaseTraversable> voisines = getVoisinesTraversables(lig, col);
+        for (CaseTraversable voisin : voisines) {
+            int chVoisin = voisin.getChaleur();
+            if (voisin.getEnFeu() > 0 && chVoisin > 0) {
+                int rVoisin = random.nextInt(200);
+                if (rVoisin < chVoisin) {
+                    int incrVoisin = random.nextInt(10) + 1;
+                    voisin.ajouterRes(Math.min(incrVoisin, 10));
+                } else if (rVoisin > 190) {
+                    int dcrVoisin = random.nextInt(2);
+                    voisin.ajouterChaleur(-dcrVoisin);
+                }
+            }
         }
     }
     private boolean limite(int lig, int col) {
         return lig >= 0 && lig < hauteur && col >= 0 && col < largeur;
     }
-    private int calculerChaleurTotale(int lig, int col) {
+    private int calculerChTotale(int lig, int col) {
         int chTotale = 0;
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {

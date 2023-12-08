@@ -1,17 +1,14 @@
 public class Hall extends CaseTraversable{
     private boolean cle;
-    private int chaleur;
-    public Hall(int l, int c){
-        super(l,c);
+    public Hall(int l, int c,int f){
+        super(l,c,f);
     }
     public Hall(int l, int c, boolean cl){
-        super(l,c);
+        super(l,c,0);
         this.cle = cl;
     }
-
-    public Hall(int l, int c,int ch){
-        super(l,c);
-        this.chaleur = ch;
+    public Hall(int l, int c){
+        this(l,c,false);
     }
     public void entre(Joueur j) {
         super.entre(j);
@@ -26,7 +23,5 @@ public class Hall extends CaseTraversable{
     @Override
     public boolean estTraversable() {return true; }
 
-    public int getChaleur() {
-        return chaleur;
-    }
+
 }

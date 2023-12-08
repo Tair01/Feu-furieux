@@ -1,6 +1,6 @@
 public class Mur extends CaseTraversable{
     public Mur(int l, int c){
-        super(l,c);
+        super(l,c,0);
     }
 
     @Override

@@ -16,9 +16,7 @@ public class Furfeux {
     public void tour() {
         CaseTraversable caseCourante = joueur.getC();
         int chaleur = 0;
-        /*if(caseCourante != null){
-            terrain.propagerFeu();
-        }*/
+        terrain.propagerFeu();
         if(caseCourante instanceof Hall){
             chaleur = caseCourante.getChaleur();
         }else if(caseCourante instanceof Sortie){

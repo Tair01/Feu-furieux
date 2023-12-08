@@ -1,20 +1,20 @@
 public  abstract class CaseTraversable extends Case{
     private Joueur j;
-    private boolean enFeu;
-    public CaseTraversable(int l, int c){
+    private int enFeu;
+    public CaseTraversable(int l, int c,int feu){
         super(l,c);
         this.j = null;
-        this.enFeu = false;
+        this.enFeu = feu;
     }
 
-    public boolean isEnFeu(){
+    public int getEnFeu(){
         return enFeu;
     }
-    public void mettreFeu(){
-        enFeu = true;
+    public void mettreEnFeu() {
+        if(10 > enFeu){enFeu++;}
     }
-    public void eteindreFeu(){
-        enFeu = false;
+    public void eteindreEnFeu(){
+        if(enFeu >0 ){enFeu--;}
     }
     @Override
     public boolean estTraversable() {return true;} //Comme c'est une case  traversable c'est toujours true
@@ -27,6 +27,7 @@ public  abstract class CaseTraversable extends Case{
 
     public void entre(Joueur j) {
         this.j = j;
+        //j.attackDuFeu(enFeu); //Pas encore tester!!
     }
 
     @Override
