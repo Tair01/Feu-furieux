@@ -4,27 +4,63 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * La classe Terrain représente l'environnement de jeu composé d'une carte avec des cases,
+ * d'une hauteur et d'une largeur définies, ainsi que d'un joueur.
+ */
 public class Terrain {
-    private int hauteur, largeur;
-    private Case[][] carte;
-    private Joueur joueur;
+    private int hauteur,largeur;           // La hauteur et la largeur de la carte.
+    private Case[][] carte;        // La matrice de cases composant la carte.
+    private Joueur joueur;         // Le joueur présent sur la carte.
 
-    public int getHauteur(){
+    /**
+     * Obtient la hauteur de la carte.
+     * @return La hauteur de la carte.
+     */
+    public int getHauteur() {
         return hauteur;
     }
 
-    public int getLargeur(){
+    /**
+     * Obtient la largeur de la carte.
+     * @return La largeur de la carte.
+     */
+    public int getLargeur() {
         return largeur;
     }
 
+    /**
+     * Obtient la matrice de cases représentant la carte.
+     * @return La matrice de cases.
+     */
     public Case[][] getCarte() {
         return carte;
     }
-    public Joueur getJoueur() { return this.joueur; }
-    public Case getCase(int l, int c){
-        return this.carte[l][c];
+
+    /**
+     * Obtient le joueur présent sur la carte.
+     * @return Le joueur.
+     */
+    public Joueur getJoueur() {
+        return joueur;
     }
 
+    /**
+     * Obtient la case située aux coordonnées spécifiées.
+     * @param l La ligne de la case.
+     * @param c La colonne de la case.
+     * @return La case aux coordonnées spécifiées.
+     */
+    public Case getCase(int l, int c) {
+        return carte[l][c];
+    }
+
+    /**
+     * Retourne la case voisine dans la direction spécifiée à partir de la case courante.
+     * @param courante La case courante.
+     * @param dir      La direction dans laquelle rechercher la case voisine.
+     * @return La case voisine dans la direction spécifiée.
+     */
     public Case chemin(Case courante, Direction dir){
         switch (dir){
             case nord: return this.getCase(courante.lig - 1, courante.col);
@@ -73,7 +109,12 @@ public class Terrain {
         }
         catch (IOException e) { e.printStackTrace(); System.exit(1); }
     }
-
+    /**
+     * Retourne une liste des cases traversables voisines à la position spécifiée.
+     * @param lig La ligne de la position.
+     * @param col La colonne de la position.
+     * @return Une liste des cases traversables voisines.
+     */
     public ArrayList<CaseTraversable> getVoisinesTraversables(int lig, int col) {
          ArrayList<CaseTraversable> v = new ArrayList<>();
          if(lig > 0 && carte[lig -1][col].estTraversable()) {
@@ -88,6 +129,9 @@ public class Terrain {
         return v;
     }
 
+    /**
+     * Propage le feu sur la carte en fonction des règles spécifiées.
+     */
     public void propagerFeu() {
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
@@ -101,37 +145,43 @@ public class Terrain {
         }
     }
 
+    /**
+     * Propage le feu autour de la case spécifiée.
+     * @param lig La ligne de la case.
+     * @param col La colonne de la case.
+     */
     private void propagerFeuAutour(int lig, int col) {
+        ArrayList<CaseTraversable> voisinesTraversables = getVoisinesTraversables(lig, col);
         int chTotale = calculerChTotale(lig, col);
         Random random = new Random();
-        int r = random.nextInt(200); // Nombre aléatoire entre 0 et 199
-        if (r < chTotale) {
-            int incr = random.nextInt(10) + 1;
-            carte[lig][col].ajouterRes(Math.min(incr, 10));
-            //carte[lig][col].mettreEnFeu();
-        } else if (r > 190) {
-            int dcr = random.nextInt(2);
-            carte[lig][col].ajouterChaleur(-dcr);
-            //carte[lig][col].eteindreEnFeu();
-        }
-        ArrayList<CaseTraversable> voisines = getVoisinesTraversables(lig, col);
-        for (CaseTraversable voisin : voisines) {
-            int chVoisin = voisin.getChaleur();
-            if (voisin.getEnFeu() > 0 && chVoisin > 0) {
-                int rVoisin = random.nextInt(200);
-                if (rVoisin < chVoisin) {
-                    int incrVoisin = random.nextInt(10) + 1;
-                    voisin.ajouterRes(Math.min(incrVoisin, 10));
-                } else if (rVoisin > 190) {
-                    int dcrVoisin = random.nextInt(2);
-                    voisin.ajouterChaleur(-dcrVoisin);
-                }
+        for (CaseTraversable voisine : voisinesTraversables) {
+            int r = random.nextInt(200);
+            if (r < chTotale) {
+                int incr = random.nextInt(10) + 1;
+                voisine.ajouterRes(Math.min(incr, 10));
+                voisine.mettreEnFeu();
+            } else if (r > 190) {
+                int dcr = random.nextInt(2);
+                voisine.ajouterChaleur(-dcr);
+                voisine.eteindreEnFeu();
             }
         }
     }
+    /**
+     * Vérifie si les coordonnées spécifiées sont dans les limites de la carte.
+     * @param lig La ligne.
+     * @param col La colonne.
+     * @return true si les coordonnées sont dans les limites, false sinon.
+     */
     private boolean limite(int lig, int col) {
         return lig >= 0 && lig < hauteur && col >= 0 && col < largeur;
     }
+    /**
+     * Calcule la chaleur totale des cases environnantes.
+     * @param lig La ligne de la case.
+     * @param col La colonne de la case.
+     * @return La chaleur totale des cases environnantes.
+     */
     private int calculerChTotale(int lig, int col) {
         int chTotale = 0;
         for (int i = -1; i <= 1; i++) {
