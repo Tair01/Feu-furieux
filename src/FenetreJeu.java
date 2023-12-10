@@ -1,6 +1,11 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+
 /**
  * FenetreJeu représente la fenêtre de jeu pour le jeu Furfeux.
  * Cette fenêtre inclut trois boutons permettant de démarrer le jeu avec
@@ -8,15 +13,17 @@ import java.awt.event.*;
  * - Bouton "Jeu 1" : Lance le jeu avec la carte manoir.txt.
  * - Bouton "Jeu 2" : Lance le jeu avec la carte manoir2.txt.
  * - Bouton "Jeu 3" : Lance le jeu avec la carte manoir3.txt.
- * - ...
+ * - Bouton "Admin" : Lance le jeu de test avec la carte admin-test.txt
  * Il y a un total de quatre cartes disponibles pour jouer.
  */
 public class FenetreJeu extends JPanel implements KeyListener, MouseListener {
-    private Terrain terrain;          // Le terrain de jeu.
-    private int tailleCase = 36;       // La taille des cases dans la fenêtre.
-    private int hauteur, largeur;      // La hauteur et la largeur du terrain.
-    private JFrame frame;             // La fenêtre principale du jeu.
-    private Joueur joueur;            // Le joueur du jeu.
+    private Terrain terrain;          // Le terrain de jeu
+    private int tailleCase = 36;       // La taille des cases dans la fenêtre
+    private int hauteur, largeur;      // La hauteur et la largeur du terrain
+    private JFrame frame;             // La fenêtre principale du jeu
+    private Joueur joueur;            // Le joueur du jeu
+    private Clip musique;               // Objet Clip pour la gestion de la musique
+
     /**
      * Constructeur de la classe FenetreJeu.
      * @param t Le terrain de jeu.
@@ -27,7 +34,7 @@ public class FenetreJeu extends JPanel implements KeyListener, MouseListener {
         this.terrain = t;
         this.joueur = t.getJoueur();
 
-        // Configuration de l'aspect de la fenêtre.
+        // Configuration de l'aspect de la fenêtre
         setBackground(Color.LIGHT_GRAY);
         setPreferredSize(new Dimension(9 * tailleCase, 9 * tailleCase));
 
@@ -37,34 +44,31 @@ public class FenetreJeu extends JPanel implements KeyListener, MouseListener {
         JButton boutonJeu3 = new JButton("Jeu 3");
         JButton boutonAdmin = new JButton("Admin");
 
-        // Configuration du panneau de boutons.
+        // Configuration du panneau de boutons
         JPanel boutonPanel = new JPanel();
         boutonPanel.add(boutonJeu1);
         boutonPanel.add(boutonJeu2);
         boutonPanel.add(boutonJeu3);
         boutonPanel.add(boutonAdmin);
-        // Ajout des listeners aux boutons.
+        // Ajout des listeners aux boutons
         boutonJeu1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 commencerJeu("C:\\Users\\Admin\\IdeaProjects\\feu-furieux\\src\\manoir.txt");
             }
         });
-        // Ajout des listeners aux boutons.
         boutonJeu2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 commencerJeu("C:\\Users\\Admin\\IdeaProjects\\feu-furieux\\src\\manoir2.txt");
             }
         });
-        // Ajout des listeners aux boutons.
         boutonJeu3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 commencerJeu("C:\\Users\\Admin\\IdeaProjects\\feu-furieux\\src\\manoir3.txt");
             }
         });
-        // Ajout des listeners aux boutons.
         boutonAdmin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -94,6 +98,9 @@ public class FenetreJeu extends JPanel implements KeyListener, MouseListener {
         frame.addKeyListener(this);
         frame.setFocusable(true);
         frame.requestFocusInWindow();
+
+        chargerMusique();
+        jouerMusique();
     }
     /**
      * Méthode appelée pour redessiner la fenêtre.
@@ -133,7 +140,6 @@ public class FenetreJeu extends JPanel implements KeyListener, MouseListener {
         }
         repaint();
     }
-
     /**
      * Méthode pour dessiner les éléments spécifiques dans la fenêtre.
      * @param g   L'objet Graphics utilisé pour dessiner.
@@ -167,12 +173,15 @@ public class FenetreJeu extends JPanel implements KeyListener, MouseListener {
 
     /**
      * Méthode pour commencer un nouveau jeu à partir d'un fichier spécifié.
-     * @param cheminFichier Le chemin du fichier de configuration du jeu.
+     * @param fichier Le chemin du fichier de configuration du jeu.
      */
-    public void commencerJeu(String cheminFichier) {
+    public void commencerJeu(String fichier) {
+        rejouerMusique();
+
+        arreterMusique();
         frame.getContentPane().removeAll();
         frame.repaint();
-        Furfeux jeu = new Furfeux(cheminFichier);
+        Furfeux jeu = new Furfeux(fichier);
         FenetreJeu graphic = new FenetreJeu(jeu.terrain);
         Timer timer = new Timer(100, e -> {
             jeu.tour();
@@ -184,11 +193,44 @@ public class FenetreJeu extends JPanel implements KeyListener, MouseListener {
         });
         timer.start();
     }
+    /**
+     * Charge le fichier audio et initialise l'objet Clip.
+     */
+    public void chargerMusique(){
+        try{
+            AudioInputStream audio = AudioSystem.getAudioInputStream(new File("C:\\Users\\Admin\\IdeaProjects\\feu-furieux\\src\\super-mario.wav"));
+            musique = AudioSystem.getClip();
+            musique.open(audio);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Joue la musique en boucle.
+     */
+    public void jouerMusique() {
+        if (musique != null) {  // Utiliser en appuyant sur le clavier "A", voir public void keyPressed(KeyEvent e) l.250
+            musique.loop(Clip.LOOP_CONTINUOUSLY);
+        }
+    }
+    /**
+     * Arrête la lecture de la musique.
+     */
+    public void arreterMusique(){  // Utiliser en appuyant sur le clavier "Q",voir public void keyPressed(KeyEvent e) l.249
+        if (musique != null) {
+            musique.stop();
+        }
+    }
+    /**
+     * Arrête la musique, la recharge et la rejoue.
+     */
+    public void rejouerMusique() {
+        arreterMusique();
 
+        chargerMusique();
+        jouerMusique();
+    }
     // Implémentation des méthodes des interfaces KeyListener et MouseListener
-    @Override
-    public void keyTyped(KeyEvent e) {}
-
     @Override
     public void keyPressed(KeyEvent e) {
         int k = e.getKeyCode();
@@ -197,9 +239,13 @@ public class FenetreJeu extends JPanel implements KeyListener, MouseListener {
             case KeyEvent.VK_DOWN:joueur.bouge(terrain.chemin(joueur.getC(), Direction.sud)); break;
             case KeyEvent.VK_LEFT:joueur.bouge(terrain.chemin(joueur.getC(), Direction.ouest)); break;
             case KeyEvent.VK_RIGHT: joueur.bouge(terrain.chemin(joueur.getC(), Direction.est)); break;
+            case KeyEvent.VK_Q: arreterMusique(); break;
+            case KeyEvent.VK_A: jouerMusique(); break;
         }
         repaint();
     }
+    @Override
+    public void keyTyped(KeyEvent e) {}
     @Override
     public void keyReleased(KeyEvent e) {}
 
@@ -213,10 +259,11 @@ public class FenetreJeu extends JPanel implements KeyListener, MouseListener {
                 commencerJeu("C:\\Users\\Admin\\IdeaProjects\\feu-furieux\\src\\manoir2.txt");
             } else if (bouton.getText().equals("Jeu 3")) {
                 commencerJeu("C:\\Users\\Admin\\IdeaProjects\\feu-furieux\\src\\manoir3.txt");
+            }else if(bouton.getText().equals("Admin")){
+                commencerJeu("C:\\Users\\Admin\\IdeaProjects\\feu-furieux\\src\\admin-test.txt");
             }
         }
     }
-
     @Override
     public void mousePressed(MouseEvent e) {}
     @Override
@@ -225,7 +272,6 @@ public class FenetreJeu extends JPanel implements KeyListener, MouseListener {
     public void mouseEntered(MouseEvent e) {}
     @Override
     public void mouseExited(MouseEvent e) {}
-
     /**
      * Classe principale Main pour lancer le jeu.
      */
