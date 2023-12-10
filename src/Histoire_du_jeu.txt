@@ -1,0 +1,43 @@
+Introduction
+Bienvenue dans la documentation du jeu "Évasion en Furie." Ce jeu captivant met les joueurs au défi de s'échapper d'un
+manoir en flammes en utilisant leur intelligence, leur résistance, et leur agilité pour surmonter les obstacles mortels.
+
+Contexte
+Dans un manoir mystérieux plongé dans les ténèbres, des incendies menacent la vie du protagoniste. Le joueur doit s'échapper
+avant que la chaleur n'épuise sa résistance. Le manoir renferme des secrets, des portes verrouillées, et des clés dissimulées
+qui seront essentielles pour atteindre la sortie.
+
+Protagoniste
+Le joueur incarne un individu intrépide pris au piège dans le manoir en flammes. Équipé de sa seule résistance et de son intelligence,
+le protagoniste doit explorer le manoir obscur, trouver des clés pour déverrouiller des portes, et affronter le danger imminent des
+flammes.
+
+Objectif Principal
+L'objectif principal du joueur est de s'échapper du manoir en flammes en trouvant la sortie. Pour ce faire, il devra résoudre des énigmes,
+éviter les flammes destructrices, et utiliser stratégiquement les clés pour ouvrir les portes verrouillées.
+
+Éléments de l'Histoire
+
+L'Incendie Mystérieux
+Le joueur se réveille au milieu de l'incendie dévastateur dans le manoir. Sans aucune explication, le protagoniste doit agir rapidement
+pour échapper aux flammes dévorantes.
+
+Les Clés Cachées
+En explorant les pièces du manoir, le joueur découvre des clés dissimulées dans des halls. Ces clés sont cruciales pour déverrouiller
+les portes fermées et progresser vers la sortie.
+
+Les Portes Verrouillées
+Certaines portes du manoir sont verrouillées, bloquant le chemin vers la liberté. Le joueur doit utiliser judicieusement les clés
+collectées pour ouvrir ces portes et continuer son périple.
+
+Flammes Destructrices
+À chaque tour, les flammes se propagent, augmentant le niveau de chaleur des pièces traversées. Le joueur subit des dégâts en
+fonction de la chaleur des cases, et sa résistance diminue progressivement.
+
+La Sortie Mystérieuse
+Au fur et à mesure que le joueur progresse, des indices sur la nature mystérieuse de l'incendie émergent. La sortie du manoir
+n'est pas seulement un moyen d'échapper aux flammes, mais aussi de révéler les secrets cachés du lieu.
+
+Fin du Jeu
+La partie se termine lorsque le joueur atteint la sortie avec une résistance suffisante, réalisant ainsi une évasion réussie.
+Cependant, si la résistance du joueur atteint zéro, le manoir deviendra son tombeau, mettant fin à son périple.
